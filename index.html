@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punch Hole & Dynamic Island Animation</title>
+    <style>
+        /* Basic styles for the page */
+        body {
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container for the punch hole and dynamic island */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            justify-content: center;
+            top: 20px; /* Slightly adjust to provide some space at the top */
+        }
+
+        /* Dynamic island styling */
+        .dynamic-island {
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.8s ease;
+            position: absolute; /* Position it at the top */
+            top: 10px;
+        }
+
+        /* Animation styles on click (only increase width) */
+        .dynamic-island.clicked {
+            background-color: #E83D52; /* Primary color */
+            width: 250px; /* Increased width */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            height: 50px;
+        }
+
+        /* Button styling */
+         button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+           
+        }
+
+        button:hover {
+            background-color: #1b1a1a; /* Primary color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Dynamic island div -->
+        <div class="dynamic-island" onclick="toggleDynamicIsland()"></div>
+
+        <!-- Action button -->
+        <button onclick="toggleDynamicIsland()">Click here to action</button>
+        <div onclick="toggleFullScreen()">[-]</div>
+    </div>
+
+    <script>
+        // Toggle class for dynamic island animation and display message
+        function toggleDynamicIsland() {
+            const dynamicIsland = document.querySelector('.dynamic-island');
+            dynamicIsland.classList.toggle('clicked');
+
+            // Show message inside dynamic island when clicked
+            if (dynamicIsland.classList.contains('clicked')) {
+                dynamicIsland.textContent = 'Hi Abu, good afternoon!';
+            } else {
+                dynamicIsland.textContent = '';
+            }
+
+            // Revert the dynamic island to its original state after 2 seconds
+            setTimeout(() => {
+                dynamicIsland.classList.remove('clicked');
+                dynamicIsland.textContent = '';
+            }, 800); // 1000ms = 1 second
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement &&    // If not in fullscreen
+                !document.webkitFullscreenElement &&  // Safari
+                !document.mozFullScreenElement &&    // Firefox
+                !document.msFullscreenElement) {     // IE/Edge
+                // Request fullscreen
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { // Safari
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                    document.documentElement.msRequestFullscreen();
+                }
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { // Safari
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
